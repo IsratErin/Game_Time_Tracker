@@ -2,17 +2,29 @@
 
 A full-stack application that allows users to play games, track their progress and compare statistics with other players.
 
+## Deployed Links
+
+- **Frontend:**  
+  [https://client-gametimetracker.vercel.app/](https://client-gametimetracker.vercel.app/)
+
+- **Backend:**  
+  [https://server-gametimetracker.vercel.app/](https://server-gametimetracker.vercel.app/)
+
+  You can try the API endpoints directly:
+
+  - [https://server-gametimetracker.vercel.app/users](https://server-gametimetracker.vercel.app/users) – View all users in JSON format
+  - [https://server-gametimetracker.vercel.app/games](https://server-gametimetracker.vercel.app/games) – View all games in JSON format
+
 ## 🚀 Features
 
 - **User Management**
   - View user profiles with avatar, name, and total playtime.
-  
 - **Game Sessions**
   - Start and stop a game session with automatic timer.
   - Record playtime accurately (minutes and seconds).
   - Update user, game, and daily stats totals automatically.
-  
 - **Dashboard & Charts**
+
   - Line chart displaying users’ daily play.
   - Horizontal bar chart displaying total minutes played per game.
   - Doughnut chart displaying percentages of total play time per game.
@@ -21,38 +33,40 @@ A full-stack application that allows users to play games, track their progress a
   - Summary of total minutes played.
 
 - **Session Management**
+
   - Delete individual play sessions.
   - Backend automatically adjusts totals when a session is deleted.
 
 - **Responsive UI**
+
   - Works on desktop and mobile devices.
 
 - **Track Play Time**: Use a timer to track time for different games.
   The timer counts the time as seconds and only when 60 seconds pass we count that time as 1 minute and it get stored in
-   "minutesPlayed" in the "PlaySession" table.
-  
+  "minutesPlayed" in the "PlaySession" table.
 - **Player Statistics**: Diiferent graph and chart shows play statistics based on daily and weekly data.
-  
 - **Leaderboard**: Compare stattistics with other players, showing the top users per game.
-  
---- 
+
+---
 
 ## 🛠 Tech Stack
 
-- **Frontend:** React, TypeScript, Vite, Tailwind CSS, react-router-dom, react-chartjs-2  
-- **Backend:** Node.js, Express, TypeScript, Prisma ORM  
-- **Database:** PostgreSQL  
-- **API Validation:** Zod  
-- **Routing:** React Router  
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS, react-router-dom, react-chartjs-2
+- **Backend:** Node.js, Express, TypeScript, Prisma ORM
+- **Database:** PostgreSQL
+- **API Validation:** Zod
+- **Routing:** React Router
 - **HTTP Requests:** Axios
 - **ESLint + Prettier** configuration for consistent code style
 
 ---
 
 ### 🔗 Navbar
+
 <img width="1286" height="167" alt="NavBar" src="https://github.com/user-attachments/assets/57912160-6ed4-49d9-9bc9-aaad98caedd7" />
 
 ### 🧿 Sign Up Page
+
 <img width="1448" height="740" alt="Singup" src="https://github.com/user-attachments/assets/766054ba-dcee-4de7-8334-16a1b4dc89cd" />
 
 ### 👩🏻‍🎤 Users Page
@@ -60,9 +74,11 @@ A full-stack application that allows users to play games, track their progress a
 <img width="1444" height="900" alt="Users" src="https://github.com/user-attachments/assets/26f6ba03-70c4-4056-a80c-6e25e365ad09" />
 
 ### 🎮 Games Page
+
 <img width="1443" height="961" alt="Games" src="https://github.com/user-attachments/assets/bca74b5c-ee94-4173-b08a-3c637cd993e3" />
 
 ### 🔥 Game Timer Page
+
 <img width="1438" height="961" alt="Game-sessions" src="https://github.com/user-attachments/assets/08f3ca2c-e729-479b-8ca3-da393542fc3e" />
 
 ### 📊 Games Statistics
@@ -74,11 +90,11 @@ A full-stack application that allows users to play games, track their progress a
 ---
 
 ## 🗃️ ER Diagram
+
 The database of four tables:
 User, Game, PlaySession, and UserStats.
 
 ![Games-Tracker](https://github.com/user-attachments/assets/9be4e0ae-e23a-4065-a3e9-2d203263034d)
-
 
 <pre>
 User -> PlaySession: One-to-many One user can have many play sessions.
@@ -92,7 +108,7 @@ User -> UserStats: One-to-many (cascade delete) One user can have many daily sta
 
 ## 🧩 Database Schema (Prisma)
 
-```prisma
+````prisma
 model User {
   id                 Int           @id @default(autoincrement())
   firstName          String
@@ -147,7 +163,7 @@ model UserStats {
    ```bash
    git clone https://github.com/ShahidDS/game-time-tracker.git
    cd game-time-tracker
-   ```
+````
 
 2. Install dependencies for both client and server:
    ```bash
@@ -157,19 +173,23 @@ model UserStats {
    npm install
    ```
 3. Set up Enviromental Variables:
-  -Create a `.env` file in the `server` directory.
-  - Add the following variable in `.env` to configure the database connection:
-    DATABASE_URL="postgresql://username:password@localhost:5432/database_name"
+   -Create a `.env` file in the `server` directory.
+
+- Add the following variable in `.env` to configure the database connection:
+  DATABASE_URL="postgresql://username:password@localhost:5432/database_name"
 
 4. Set up the database and apply Prisma migrations:
-     ```bash
-     cd server
-     npm install prisma @prisma/client@latest @prisma/extension-accelerate@latest
-     npx prisma generate --no-engine
-     npx prisma migrate dev
 
+   ```bash
+   cd server
+   npm install prisma @prisma/client@latest @prisma/extension-accelerate@latest
+   npx prisma generate --no-engine
+   npx prisma migrate dev
+
+   ```
 
 5. Seed the database (optional):
+
    ```bash
    npx prisma db seed
    ```
