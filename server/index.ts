@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-import userRoutes from "./src/routes/userRoutes.ts";
-import gameRoutes from "./src/routes/gameRoutes.ts";
-import playSessionRoutes from "./src/routes/playSessionRoutes.ts";
-import statisticsRoutes from "./src/routes/statisticsRoutes.ts";
+import userRoutes from "./src/routes/userRoutes.js";
+import gameRoutes from "./src/routes/gameRoutes.js";
+import playSessionRoutes from "./src/routes/playSessionRoutes.js";
+import statisticsRoutes from "./src/routes/statisticsRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;

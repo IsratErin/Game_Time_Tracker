@@ -1,6 +1,6 @@
-import type { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import { playSessionSchema } from '../validators/playSessionSchema.ts';
+import type { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import { playSessionSchema } from "../validators/playSessionSchema.js";
 
 const prisma = new PrismaClient();
 
@@ -56,13 +56,13 @@ export const createPlaySession = async (req: Request, res: Response) => {
     });
 
     return res.status(201).json({
-      message: 'Play session recorded successfully',
+      message: "Play session recorded successfully",
       session,
     });
   } catch (error) {
     console.error(error);
     return res.status(400).json({
-      error: error instanceof Error ? error.message : 'Invalid input',
+      error: error instanceof Error ? error.message : "Invalid input",
     });
   }
 };
@@ -72,44 +72,44 @@ export const getAllPlaySessions = async (req: Request, res: Response) => {
   try {
     const sessions = await prisma.playSession.findMany({
       include: { user: true, game: true },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
     return res.json(sessions);
   } catch (error) {
     return res.status(500).json({
       error:
-        error instanceof Error ? error.message : 'Failed to fetch sessions',
+        error instanceof Error ? error.message : "Failed to fetch sessions",
     });
   }
 };
 
 // GET sessions by userId
 export const getUserStats = async (req: Request, res: Response) => {
-  const userId = parseInt(req.params.userId ?? '', 10);
+  const userId = parseInt(req.params.userId ?? "", 10);
   if (Number.isNaN(userId)) {
-    return res.status(400).json({ error: 'Invalid userId' });
+    return res.status(400).json({ error: "Invalid userId" });
   }
 
   try {
     const sessions = await prisma.playSession.findMany({
       where: { userId },
       include: { game: true },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
     return res.json(sessions);
   } catch (error) {
     return res.status(500).json({
       error:
-        error instanceof Error ? error.message : 'Failed to fetch user stats',
+        error instanceof Error ? error.message : "Failed to fetch user stats",
     });
   }
 };
 
 // DELETE play session
 export const deletePlaySession = async (req: Request, res: Response) => {
-  const sessionId = parseInt(req.params.id ?? '', 10);
+  const sessionId = parseInt(req.params.id ?? "", 10);
   if (Number.isNaN(sessionId)) {
-    return res.status(400).json({ error: 'Invalid session id' });
+    return res.status(400).json({ error: "Invalid session id" });
   }
 
   try {
@@ -117,7 +117,7 @@ export const deletePlaySession = async (req: Request, res: Response) => {
       where: { id: sessionId },
     });
     if (!session) {
-      return res.status(404).json({ error: 'Play session not found' });
+      return res.status(404).json({ error: "Play session not found" });
     }
 
     const { userId, gameId, minutesPlayed, createdAt } = session;
@@ -141,7 +141,7 @@ export const deletePlaySession = async (req: Request, res: Response) => {
     });
 
     return res.json({
-      message: 'Play session deleted successfully',
+      message: "Play session deleted successfully",
       sessionId,
     });
   } catch (error) {
@@ -150,7 +150,7 @@ export const deletePlaySession = async (req: Request, res: Response) => {
       error:
         error instanceof Error
           ? error.message
-          : 'Failed to delete play session',
+          : "Failed to delete play session",
     });
   }
 };

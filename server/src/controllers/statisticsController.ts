@@ -4,7 +4,7 @@ import {
   userStatsResponseSchema,
   gameStatsResponseSchema,
   gameDataForAllSchema,
-} from "../validators/statisticsSchema.ts";
+} from "../validators/statisticsSchema.js";
 import { startOfDay, subDays, subMonths, formatISO } from "date-fns";
 
 const prisma = new PrismaClient();

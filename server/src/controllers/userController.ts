@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { PrismaClient, Prisma } from "@prisma/client";
-import { userSchema, userUpdateSchema } from "../validators/userSchema.ts";
+import { userSchema, userUpdateSchema } from "../validators/userSchema.js";
 
 const prisma = new PrismaClient();
 

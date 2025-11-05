@@ -1,6 +1,6 @@
-import type { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import { gameSchema, gameUpdateSchema } from '../validators/gameSchema.ts';
+import type { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import { gameSchema, gameUpdateSchema } from "../validators/gameSchema.js";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 export const getGames = async (req: Request, res: Response) => {
   try {
     const games = await prisma.game.findMany({
-      orderBy: { id: 'asc' },
+      orderBy: { id: "asc" },
       include: {
         _count: {
           select: {
@@ -19,8 +19,8 @@ export const getGames = async (req: Request, res: Response) => {
     });
     res.json(games);
   } catch (error) {
-    console.error('Error fetching games:', error);
-    res.status(500).json({ error: 'Failed to fetch games' });
+    console.error("Error fetching games:", error);
+    res.status(500).json({ error: "Failed to fetch games" });
   }
 };
 
@@ -39,12 +39,12 @@ export const getGameById = async (req: Request, res: Response) => {
       },
     });
     if (!game) {
-      return res.status(404).json({ error: 'Game not found' });
+      return res.status(404).json({ error: "Game not found" });
     }
     res.json(game);
   } catch (error) {
-    console.error('Error fetching game by id:', error);
-    res.status(500).json({ error: 'Failed to fetch game' });
+    console.error("Error fetching game by id:", error);
+    res.status(500).json({ error: "Failed to fetch game" });
   }
 };
 
@@ -60,8 +60,10 @@ export const createGame = async (req: Request, res: Response) => {
     });
     res.status(201).json(game);
   } catch (error) {
-    console.error('Error creating game:', error);
-    res.status(400).json({ error: error instanceof Error ? error.message : error });
+    console.error("Error creating game:", error);
+    res
+      .status(400)
+      .json({ error: error instanceof Error ? error.message : error });
   }
 };
 
@@ -70,7 +72,7 @@ export const updateGame = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const validated = gameUpdateSchema.parse(req.body);
-    
+
     const updateData: { name?: string } = {};
     if (validated.name !== undefined) {
       updateData.name = validated.name;
@@ -82,7 +84,7 @@ export const updateGame = async (req: Request, res: Response) => {
     });
     res.json(game);
   } catch (error) {
-    console.error('Error updating game:', error);
+    console.error("Error updating game:", error);
     res.status(400).json({ error });
   }
 };
@@ -94,10 +96,10 @@ export const deleteGame = async (req: Request, res: Response) => {
     await prisma.game.delete({
       where: { id: Number(id) },
     });
-    res.status(200).json({ message: 'Game deleted successfully'});
+    res.status(200).json({ message: "Game deleted successfully" });
   } catch (error) {
-    console.error('Error deleting game:', error);
-    res.status(500).json({ error: 'Failed to delete game' });
+    console.error("Error deleting game:", error);
+    res.status(500).json({ error: "Failed to delete game" });
   }
 };
 
@@ -128,27 +130,28 @@ export const getGameStats = async (req: Request, res: Response) => {
             },
           },
           orderBy: {
-            createdAt: 'desc',
+            createdAt: "desc",
           },
           take: 10,
         },
       },
       orderBy: {
-        totalMinutesPlayed: 'desc',
+        totalMinutesPlayed: "desc",
       },
     });
 
-    const statsWithCalculations = gameStats.map(game => ({
+    const statsWithCalculations = gameStats.map((game) => ({
       ...game,
-      averageSessionLength: game._count.sessions > 0 
-        ? Math.round(game.totalMinutesPlayed / game._count.sessions)
-        : 0,
+      averageSessionLength:
+        game._count.sessions > 0
+          ? Math.round(game.totalMinutesPlayed / game._count.sessions)
+          : 0,
     }));
 
     res.json(statsWithCalculations);
   } catch (error) {
-    console.error('Error fetching game statistics:', error);
-    res.status(500).json({ error: 'Failed to fetch game statistics' });
+    console.error("Error fetching game statistics:", error);
+    res.status(500).json({ error: "Failed to fetch game statistics" });
   }
 };
 
@@ -181,27 +184,30 @@ export const getGameDetailedStats = async (req: Request, res: Response) => {
             },
           },
           orderBy: {
-            createdAt: 'desc',
+            createdAt: "desc",
           },
         },
       },
     });
 
     if (!game) {
-      return res.status(404).json({ error: 'Game not found' });
+      return res.status(404).json({ error: "Game not found" });
     }
 
-    const averageSessionLength = game._count.sessions > 0 
-      ? Math.round(game.totalMinutesPlayed / game._count.sessions)
-      : 0;
+    const averageSessionLength =
+      game._count.sessions > 0
+        ? Math.round(game.totalMinutesPlayed / game._count.sessions)
+        : 0;
 
-    const uniquePlayers = new Set(game.sessions.map(session => session.userId)).size;
+    const uniquePlayers = new Set(
+      game.sessions.map((session) => session.userId)
+    ).size;
 
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    
-    const recentSessions = game.sessions.filter(session => 
-      new Date(session.createdAt) > thirtyDaysAgo
+
+    const recentSessions = game.sessions.filter(
+      (session) => new Date(session.createdAt) > thirtyDaysAgo
     );
 
     const stats = {
@@ -209,12 +215,15 @@ export const getGameDetailedStats = async (req: Request, res: Response) => {
       averageSessionLength,
       uniquePlayers,
       recentSessionsCount: recentSessions.length,
-      recentMinutesPlayed: recentSessions.reduce((total, session) => total + session.minutesPlayed, 0),
+      recentMinutesPlayed: recentSessions.reduce(
+        (total, session) => total + session.minutesPlayed,
+        0
+      ),
     };
 
     res.json(stats);
   } catch (error) {
-    console.error('Error fetching detailed game statistics:', error);
-    res.status(500).json({ error: 'Failed to fetch detailed game statistics' });
+    console.error("Error fetching detailed game statistics:", error);
+    res.status(500).json({ error: "Failed to fetch detailed game statistics" });
   }
 };

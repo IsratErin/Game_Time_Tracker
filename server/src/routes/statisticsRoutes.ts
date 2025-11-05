@@ -4,7 +4,7 @@ import {
   gameBasedStats,
   gameStatsAllUser,
   gameTopPlayerStats,
-} from "../controllers/statisticsController.ts";
+} from "../controllers/statisticsController.js";
 
 const router = express.Router();
 
