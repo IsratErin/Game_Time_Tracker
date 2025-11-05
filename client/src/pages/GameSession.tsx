@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import api from '../api/axios';
-import { type User } from '../types';
+import { useEffect, useState } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import api from "../api/axios";
+import { type User } from "../types";
 
 export default function GameSession() {
   const { userId, gameId } = useParams<{ userId: string; gameId: string }>();
@@ -13,7 +13,7 @@ export default function GameSession() {
   const [stopped, setStopped] = useState(false);
   const [started, setStarted] = useState(false);
   const [sessionStart, setSessionStart] = useState<Date | null>(null);
-  const gameName = location.state?.gameName || '';
+  const gameName = location.state?.gameName || "";
 
   // Fetch user info
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function GameSession() {
         const res = await api.get(`/users/${userId}`);
         setUser(res.data);
       } catch (err) {
-        console.error('Failed to fetch user:', err);
+        console.error("Failed to fetch user:", err);
       }
     };
     fetchUser();
@@ -68,7 +68,7 @@ export default function GameSession() {
           endedAt,
         });
 
-        console.log('✅ Play session saved successfully:', res.data);
+        console.log("✅ Play session saved successfully:", res.data);
 
         navigate(`/profile/${userId}`, {
           state: {
@@ -80,7 +80,7 @@ export default function GameSession() {
         navigate(`/profile/${userId}`);
       }
     } catch (err) {
-      console.error('❌ Failed to save session:', err);
+      console.error("❌ Failed to save session:", err);
       navigate(`/profile/${userId}`);
     }
   };
@@ -89,15 +89,15 @@ export default function GameSession() {
   const formatTime = (s: number) => {
     const min = Math.floor(s / 60);
     const sec = s % 60;
-    return `${min.toString().padStart(2, '0')}:${sec
+    return `${min.toString().padStart(2, "0")}:${sec
       .toString()
-      .padStart(2, '0')}`;
+      .padStart(2, "0")}`;
   };
 
   return (
     <div className="p-6 relative min-h-[calc(100vh-128px)] flex flex-col items-center">
       {/* Game Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 mb-6 flex items-center gap-4 w-full max-w-md">
+      <div className="bg-gray-100 p-8 py-12  mb-6 flex items-center gap-6 w-full max-w-lg rounded-xl">
         <h2 className="text-3xl font-bold text-pinkyDark">{gameName}</h2>
         <p className="text-2xl font-mono ml-auto">{formatTime(seconds)}</p>
 
@@ -122,7 +122,7 @@ export default function GameSession() {
       {user && (
         <div className="fixed bottom-6 right-6 flex items-center gap-3 bg-white dark:bg-gray-800 shadow-lg rounded-xl p-3">
           <img
-            src={user.profileImage ?? ''}
+            src={user.profileImage ?? ""}
             alt={user.firstName}
             className="w-12 h-12 rounded-full object-cover"
           />

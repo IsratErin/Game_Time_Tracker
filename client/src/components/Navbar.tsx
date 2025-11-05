@@ -1,17 +1,17 @@
-import WeatherWidget from './WeatherWidgit';
-import SearchBar from './SearchBar';
+//import WeatherWidget from "./WeatherWidgit";
+import SearchBar from "./SearchBar";
 
 export default function Navbar() {
   return (
-    <nav className="w-full bg-black  shadow-lg py-4 px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-      {/* Weather Widget */}
+    <nav className="w-full bg-gray-200 shadow-md py-4 px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      {/* Weather Widget 
       <div className="order-2 md:order-1 w-full md:w-auto flex justify-center md:justify-start">
         <WeatherWidget />
-      </div>
+      </div>*/}
 
       {/* App Title */}
-      <h1 className="order-1 md:order-2 text-4xl font-bold text-pinkyDark text-white font-[Doto] text-center w-full md:w-auto">
-        🎮 Game Tracker
+      <h1 className="order-1 md:order-2 text-4xl font-bold text-pinkyDark text-black-500 font-[Doto] text-center w-full md:w-auto">
+        🎮 Game Time Tracker
       </h1>
 
       {/* Search Bar */}

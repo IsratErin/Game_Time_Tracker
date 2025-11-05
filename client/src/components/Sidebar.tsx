@@ -19,10 +19,8 @@ export default function Sidebar() {
     }`;
 
   return (
-    <aside className="w-64 bg-white dark:bg-gray-800 shadow-lg min-h-screen p-4 hidden md:flex flex-col justify-between">
+    <aside className="w-64 bg-gray-50 dark:bg-gray-800 shadow-lg min-h-screen p-4 hidden md:flex flex-col justify-between">
       <div>
-        <h2 className="text-3xl font-bold text-pink-400 mb-6 text-center">Dashboard</h2>
-
         <nav className="flex flex-col gap-4">
           {/* Always visible links */}
           <NavLink to="/" className={({ isActive }) => linkClass(isActive)}>
@@ -33,7 +31,7 @@ export default function Sidebar() {
             to="/users"
             className={({ isActive }) => linkClass(isActive)}
           >
-            👥 Users
+            👥 Players
           </NavLink>
 
           {/* Links for logged-in user */}

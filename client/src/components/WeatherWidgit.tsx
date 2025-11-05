@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export default function Weather() {
-  const [city, setCity] = useState('Stockholm');
-  const [weather, setWeather] = useState('Loading...');
+  const [city, setCity] = useState("Stockholm");
+  const [weather, setWeather] = useState("Loading...");
 
   const fetchWeather = async (city: string) => {
     try {
@@ -10,10 +10,9 @@ export default function Weather() {
       const text = await res.text();
       setWeather(`📍 ${text}`);
     } catch {
-      setWeather('⚠️ Weather unavailable');
+      setWeather("⚠️ Weather unavailable");
     }
   };
-
 
   useEffect(() => {
     fetchWeather(city);
@@ -21,12 +20,12 @@ export default function Weather() {
 
   const handleSearch = () => {
     const trimmedCity = city.trim();
-    if (!trimmedCity) return alert('Please enter a city!');
+    if (!trimmedCity) return alert("Please enter a city!");
     fetchWeather(trimmedCity);
   };
 
   return (
-    <div className="p-4 bg-black rounded shadow mb-6 max-w-md mx-auto">
+    <div className="p-4 bg-white rounded shadow-md mb-6 max-w-md w-full mx-auto">
       <h2 className="text-xl font-bold mb-2 text-pink-400 text-center">
         Weather in {city}
       </h2>

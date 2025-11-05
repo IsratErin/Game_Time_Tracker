@@ -11,7 +11,7 @@ import GameStatistics from "./pages/GameStatistics";
 
 export default function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 transition-colors duration-300">
       <Navbar />
 
       <div className="flex flex-1 ">
@@ -19,7 +19,7 @@ export default function App() {
         <Sidebar />
 
         {/* Main content */}
-        <main className="flex-1 p-6 min-h-[calc(100vh-128px)]">
+        <main className="flex-1 p-6 min-h-[calc(100vh-128px)] bg-white shadow-sm">
           <Toaster position="top-right" reverseOrder={false} />
           <Routes>
             <Route path="/" element={<Home />} />
