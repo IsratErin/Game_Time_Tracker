@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import Games from "./pages/Games";
 import GameSession from "./pages/GameSession";
 import GameStatistics from "./pages/GameStatistics";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
           </Routes>
         </main>
       </div>
+      <Analytics />
     </div>
   );
 }
