@@ -70,7 +70,7 @@ export default function Users() {
                   onClick={() => navigate(`/profile/${user.id}`)}
                   className="text-pink-400 font-bold hover:underline cursor-pointer"
                 >
-                  View
+                  See Profile
                 </button>
               </div>
               <p className="text-gray-500 text-sm text-center">{user.email}</p>

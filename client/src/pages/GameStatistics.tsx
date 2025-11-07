@@ -282,7 +282,9 @@ export default function GameStatistics() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4 text-pink-500">Game Statistics</h1>
+      <h1 className="text-2xl font-bold mb-4 text-pink-500">
+        All Players Game Statistics:
+      </h1>
 
       {/* Bar Chart */}
       <div className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-md h-[340px] mb-6">

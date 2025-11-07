@@ -81,7 +81,7 @@ export default function Sidebar() {
           onClick={handleLogout}
           className="mt-6 px-4 py-2 bg-pink-400 text-white rounded-lg hover:bg-pink-500 w-full cursor-pointer"
         >
-          🌸 Log Out
+          Log Out
         </button>
       )}
     </aside>
