@@ -26,6 +26,12 @@ export default function Sidebar() {
           <NavLink to="/" className={({ isActive }) => linkClass(isActive)}>
             🧿 Sign Up
           </NavLink>
+          <NavLink
+            to="/login"
+            className={({ isActive }) => linkClass(isActive)}
+          >
+            🧿 Log In
+          </NavLink>
 
           <NavLink
             to="/users"

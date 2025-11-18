@@ -5,6 +5,7 @@ import { type User } from "../types";
 import toast from "react-hot-toast";
 import { isAxiosError } from "axios";
 import { z } from "zod";
+import { createUser } from "../auth/authService"; // Import createUser from authService
 
 interface RegisterFormProps {
   onSuccess?: (user: User) => void;
@@ -15,15 +16,17 @@ const registerSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters long"),
   lastName: z.string().min(2, "Last name must be at least 2 characters long"),
   email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
-type FormFields = "firstName" | "lastName" | "email";
+type FormFields = "firstName" | "lastName" | "email" | "password";
 
 export default function RegisterForm({ onSuccess }: RegisterFormProps) {
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
     email: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState<Partial<Record<FormFields, string>>>({});
@@ -56,6 +59,16 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     setLoading(true);
 
     try {
+      // Call createUser from authService
+      const firebaseUser = await createUser({
+        email: form.email,
+        password: form.password,
+      });
+
+      if (!firebaseUser) {
+        throw new Error("Failed to create user in Firebase.");
+      }
+
       // Generate DiceBear avatar
       const seed = `${form.firstName}-${form.lastName}-${Math.random()
         .toString(36)
@@ -70,7 +83,9 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
       const user: User = res.data;
       toast.success("🎉 User created successfully!");
       if (onSuccess) onSuccess(user);
-      setTimeout(() => navigate("/users"), 2000);
+
+      // Redirect to the users page
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err: unknown) {
       console.error(err);
       if (
@@ -92,37 +107,49 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
       onSubmit={handleSubmit}
       className="flex flex-col space-y-4 bg-gray-100 p-6 rounded-xl max-w-md mx-auto shadow-md"
     >
-      {(["firstName", "lastName", "email"] as const).map((field) => (
-        <div key={field}>
-          <label
-            htmlFor={field}
-            className="block text-gray-700 mb-1 capitalize"
-          >
-            {field === "email" ? "Email Address" : field}
-          </label>
-          <input
-            id={field}
-            type={field === "email" ? "email" : "text"}
-            value={form[field]}
-            onChange={handleChange}
-            className={`w-full p-2 rounded-md bg-white border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-400 ${
-              submitted && errors[field] ? "border-red-500" : ""
-            }`}
-            required
-            aria-invalid={!!errors[field]}
-            aria-describedby={`${field}-error`}
-          />
-          {submitted && errors[field] && (
-            <p
-              id={`${field}-error`}
-              className="text-red-600 text-sm mt-1 bg-red-100 p-1 rounded-md"
-              role="alert"
+      {(["firstName", "lastName", "email", "password"] as const).map(
+        (field) => (
+          <div key={field}>
+            <label
+              htmlFor={field}
+              className="block text-gray-700 mb-1 capitalize"
             >
-              {errors[field]}
-            </p>
-          )}
-        </div>
-      ))}
+              {field === "email"
+                ? "Email Address"
+                : field === "password"
+                ? "Password"
+                : field}
+            </label>
+            <input
+              id={field}
+              type={
+                field === "email"
+                  ? "email"
+                  : field === "password"
+                  ? "password"
+                  : "text"
+              }
+              value={form[field]}
+              onChange={handleChange}
+              className={`w-full p-2 rounded-md bg-white border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-400 ${
+                submitted && errors[field] ? "border-red-500" : ""
+              }`}
+              required
+              aria-invalid={!!errors[field]}
+              aria-describedby={`${field}-error`}
+            />
+            {submitted && errors[field] && (
+              <p
+                id={`${field}-error`}
+                className="text-red-600 text-sm mt-1 bg-red-100 p-1 rounded-md"
+                role="alert"
+              >
+                {errors[field]}
+              </p>
+            )}
+          </div>
+        )
+      )}
 
       <button
         type="submit"
