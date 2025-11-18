@@ -84,7 +84,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
       toast.success("🎉 User created successfully!");
       if (onSuccess) onSuccess(user);
 
-      // Redirect to the users page
+      // Redirect to the loginpage
       setTimeout(() => navigate("/login"), 2000);
     } catch (err: unknown) {
       console.error(err);

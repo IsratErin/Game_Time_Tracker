@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { signInUser } from "../auth/authService";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -14,6 +16,9 @@ export default function LoginForm() {
     try {
       await signInUser({ email, password });
       toast.success("Logged in successfully!");
+
+      // Redirect to the Users page
+      setTimeout(() => navigate("/users"), 2000);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message || "Failed to log in.");
