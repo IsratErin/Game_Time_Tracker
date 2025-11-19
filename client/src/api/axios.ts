@@ -14,7 +14,7 @@ api.interceptors.request.use(
       if (token && config.headers) {
         config.headers.Authorization = `Bearer ${token}`;
       }
-      localStorage.setItem("authToken", token || "");
+      // localStorage.setItem("authToken", token || "");
     } catch (error) {
       console.error("Error retrieving ID token:", error);
     }
