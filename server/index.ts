@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 // Allow requests from both local and deployed clients
 const allowedOrigins = [
   "http://localhost:5173", // Local development
-  "https://client-gametimetracker.vercel.app/", // Deployed client
+  "https://client-gametimetracker.vercel.app", // Deployed client
 ];
 
 app.use(
