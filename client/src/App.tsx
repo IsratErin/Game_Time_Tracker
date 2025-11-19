@@ -1,8 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Signup";
+import Login from "./pages/Login";
 import Users from "./pages/Users";
 import Profile from "./pages/Profile";
 import Games from "./pages/Games";
@@ -24,7 +26,15 @@ export default function App() {
           <Toaster position="top-right" reverseOrder={false} />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/users" element={<Users />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/users"
+              element={
+                <ProtectedRoute>
+                  <Users />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/games/:userId" element={<Games />} />
             <Route

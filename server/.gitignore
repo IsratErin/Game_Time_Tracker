@@ -26,3 +26,6 @@ dist-ssr
 /src/generated/prisma
 /generated/prisma
 .vercel
+
+#firebase service account keys
+firebaseServiceAccountKey.json
