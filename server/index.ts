@@ -4,7 +4,6 @@ import userRoutes from "./src/routes/userRoutes.js";
 import gameRoutes from "./src/routes/gameRoutes.js";
 import playSessionRoutes from "./src/routes/playSessionRoutes.js";
 import statisticsRoutes from "./src/routes/statisticsRoutes.js";
-//import verifyIdToken from "./src/middleware/authMiddleware.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
