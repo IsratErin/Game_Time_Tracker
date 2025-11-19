@@ -8,13 +8,37 @@ import statisticsRoutes from "./src/routes/statisticsRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// Allow requests from both local and deployed clients
+const allowedOrigins = [
+  "http://localhost:5173", // Local development
+  "https://game-time-tracker-client.vercel.app", // Deployed client
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+
 app.use(express.json());
 
+//  API routes
 app.use("/users", userRoutes);
 app.use("/games", gameRoutes);
 app.use("/sessions", playSessionRoutes);
 app.use("/statistics", statisticsRoutes);
+
+// Default route for the root path
+app.get("/", (req, res) => {
+  res.send("Welcome to the Game Time Tracker API!");
+});
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
