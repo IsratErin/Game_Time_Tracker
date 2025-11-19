@@ -40,6 +40,12 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Game Time Tracker API!");
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
-});
+// Only start the server if not in production (Vercel will handle this)
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  });
+}
+
+//for Vercel serverless functions
+export default app;
