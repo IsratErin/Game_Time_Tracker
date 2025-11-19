@@ -1,5 +1,4 @@
 import express from "express";
-import cors from "cors";
 import userRoutes from "../src/routes/userRoutes.js";
 import gameRoutes from "../src/routes/gameRoutes.js";
 import playSessionRoutes from "../src/routes/playSessionRoutes.js";
@@ -7,15 +6,19 @@ import statisticsRoutes from "../src/routes/statisticsRoutes.js";
 
 const app = express();
 
-// CORS configuration
-app.use(
-  cors({
-    origin: "*", // Allow all origins for now
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
+// Set CORS headers on ALL responses
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Max-Age", "86400");
+
+  // Handle preflight
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 app.use(express.json());
 
