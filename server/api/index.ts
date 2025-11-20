@@ -6,18 +6,32 @@ import statisticsRoutes from "../src/routes/statisticsRoutes.js";
 
 const app = express();
 
-// Allowed origin (no credentials -> can use wildcard; if you later set withCredentials:true, replace "*" with exact origin)
-const ALLOWED_ORIGIN =
+const CLIENT_ORIGIN =
   "https://game-time-tracker-client-git-auth-israt-jahan-erins-projects.vercel.app";
 
-// Core CORS + preflight FIRST
+// Global CORS (first)
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
-  res.setHeader("Vary", "Origin"); // good practice
+  const origin = req.headers.origin;
+  if (origin === CLIENT_ORIGIN) {
+    res.setHeader("Access-Control-Allow-Origin", CLIENT_ORIGIN);
+  }
+  // If you want to allow all (no credentials): uncomment:
+  // res.setHeader("Access-Control-Allow-Origin", "*");
+
+  res.setHeader("Vary", "Origin");
+
+  // Echo requested headers (fallback)
+  const requested = req.headers["access-control-request-headers"];
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    requested ? String(requested) : "Content-Type, Authorization"
+  );
+
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  // No credentials since axios uses withCredentials:false
+  // Do NOT set Allow-Credentials unless you also remove "*" and use withCredentials:true
+  // res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Max-Age", "86400");
+
   if (req.method === "OPTIONS") {
     return res.status(204).end();
   }
@@ -36,16 +50,16 @@ app.get("/", (_req, res) => {
   res.send("Welcome to the Game Time Tracker API!");
 });
 
-// 404 with CORS headers still present
+// 404
 app.use((req, res) => {
   res.status(404).json({ error: "Not Found", path: req.originalUrl });
 });
 
-// Error handler ensuring CORS headers
+// Error
 app.use((err: any, _req: any, res: any, _next: any) => {
-  console.error("Server error:", err);
-  res.setHeader("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
-  res.status(500).json({ error: "Server Error", detail: err?.message });
+  console.error("Unhandled error:", err);
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_ORIGIN);
+  res.status(500).json({ error: "Server Error" });
 });
 
 export default app;
