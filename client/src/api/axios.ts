@@ -2,7 +2,7 @@ import axios from "axios";
 import { getIdToken } from "../auth/authService";
 
 const api = axios.create({
-  baseURL: `https://game-time-trackerserver-git-auth-israt-jahan-erins-projects.vercel.app/`,
+  baseURL: `https://server-gametimetracker.vercel.app/`,
   //baseURL: `http://localhost:3000/`,
   withCredentials: true,
 });
