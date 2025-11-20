@@ -1,13 +1,15 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import { signOutUser } from "../auth/authService";
 
 export default function Sidebar() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useUser();
 
   const handleLogout = () => {
+    signOutUser();
     setCurrentUser(null);
-    navigate("/users");
+    navigate("/login");
   };
 
   // Unified styles for all NavLinks
