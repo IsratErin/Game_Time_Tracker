@@ -6,33 +6,21 @@ const api = axios.create({
   withCredentials: false, // explicitly no cookies
 });
 
-// Log cookies for each request
-api.interceptors.request.use(async (config) => {
-  const token = await getIdToken().catch(() => null);
-
-  if (token) {
-    config.headers = config.headers || {};
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  // Check if browser will send cookies with this request
-  if (typeof document !== "undefined") {
-    console.log("document.cookie:", document.cookie); // cookies for client domain
-  }
-
-  console.log("Request config.withCredentials:", config.withCredentials);
-
-  return config;
-});
-
-// log response
-api.interceptors.response.use(
-  (response) => {
-    console.log("Response headers:", response.headers);
-    return response;
+// Request interceptor to include the ID token in the Authorization header
+api.interceptors.request.use(
+  async (config) => {
+    try {
+      const token = await getIdToken().catch(() => null);
+      if (token) {
+        config.headers = config.headers || {};
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (error) {
+      console.error("Error retrieving ID token:", error);
+    }
+    return config;
   },
   (error) => {
-    console.error("Request error:", error);
     return Promise.reject(error);
   }
 );
