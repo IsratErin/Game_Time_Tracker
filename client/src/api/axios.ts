@@ -4,7 +4,7 @@ import { getIdToken } from "../auth/authService";
 const api = axios.create({
   baseURL: `https://game-time-trackerserver-git-auth-israt-jahan-erins-projects.vercel.app/`,
   //baseURL: `http://localhost:3000/`,
-  withCredentials: false,
+  withCredentials: true,
 });
 
 api.interceptors.request.use(
