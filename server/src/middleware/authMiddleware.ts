@@ -5,28 +5,33 @@ interface AuthenticatedRequest extends Request {
   user?: admin.auth.DecodedIdToken;
 }
 
+const CLIENT_ORIGIN =
+  "https://game-time-tracker-client-git-auth-israt-jahan-erins-projects.vercel.app";
+
 const verifyIdToken = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
-  const authHeader = req.headers.authorization;
+  // Ensure CORS header even on auth failure
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_ORIGIN);
 
+  if (req.method === "OPTIONS") {
+    return next(); // preflight already handled, do not auth
+  }
+
+  const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    console.error("No token provided");
     return res.status(401).json({ message: "Unauthorized" });
   }
 
   const token = authHeader.split(" ")[1];
-
   if (!token) {
-    console.error("Invalid token format");
     return res.status(401).json({ message: "Unauthorized" });
   }
 
   try {
     const decodedToken = await admin.auth().verifyIdToken(token);
-    console.log("Token verified successfully", decodedToken);
     req.user = decodedToken;
     next();
   } catch (error) {
