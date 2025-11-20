@@ -11,21 +11,30 @@ const PORT = process.env.PORT || 3000;
 // Allow requests from both local and deployed clients
 const allowedOrigins = [
   "http://localhost:5173", // Local development
-  "https://client-gametimetracker.vercel.app", // Deployed client
+  "https://game-time-tracker-client-git-auth-israt-jahan-erins-projects.vercel.app", // deployed client
 ];
 
+//CORS configuration with OPTIONS support
 app.use(
   cors({
     origin: (origin, callback) => {
+      //requests with no origin (like mobile apps, Postman)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.log("CORS blocked origin:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+    maxAge: 86400, // Cache preflight for 24 hours
   })
 );
+
+// preflight OPTIONS requests
+app.options("*", cors());
 
 app.use(express.json());
 

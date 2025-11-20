@@ -9,7 +9,8 @@
     "dev": "tsx watch index.ts",
     "lint": "eslint .",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
@@ -25,10 +26,13 @@
     "@prisma/client": "^6.18.0",
     "@prisma/extension-accelerate": "^2.0.2",
     "@types/cors": "^2.8.19",
+    "admin": "^1.4.1",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "dotenv": "^16.6.1",
     "express": "^4.21.2",
+    "firebase": "^12.6.0",
+    "firebase-admin": "^13.6.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {
