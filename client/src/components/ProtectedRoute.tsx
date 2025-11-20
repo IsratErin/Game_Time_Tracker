@@ -1,4 +1,4 @@
-//import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import app from "../auth/firebase.init";
@@ -21,7 +21,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
       <div style={{ textAlign: "center", marginTop: "2rem" }}>
         <p>You must be logged in to access this page.</p>
         <a href="/login" style={{ color: "blue", textDecoration: "underline" }}>
-          Go to Login
+          Go to <Navigate to="/login" replace />;
         </a>
       </div>
     );
