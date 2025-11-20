@@ -70,7 +70,7 @@ export default function Users() {
                   onClick={() => navigate(`/profile/${user.id}`)}
                   className="text-pink-400 font-bold hover:underline cursor-pointer"
                 >
-                  See Profile
+                  Profile
                 </button>
               </div>
               <p className="text-gray-500 text-sm text-center">{user.email}</p>
@@ -78,7 +78,7 @@ export default function Users() {
                 onClick={() => handlePlayGame(user)}
                 className="mt-2 bg-pink-400 text-white px-4 py-2 rounded-lg hover:bg-pink-500 cursor-pointer"
               >
-                Log In & Play
+                Play
               </button>
             </div>
           ))}
